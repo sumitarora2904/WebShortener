@@ -8,7 +8,7 @@
 /* Set body font, background, and layout */
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('/background.jpeg') no-repeat center center fixed;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('background.jpeg') no-repeat center center fixed;
     background-size: cover;
     color: white;
     display: flex;
