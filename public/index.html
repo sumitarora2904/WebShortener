@@ -1,41 +1,44 @@
-<!-- 
-(c) @xditya
-View the license: https://github.com/xditya/WebShortener/blob/master/LICENSE 
--->
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Link Shortener</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="./styles.css">
-        <link rel="icon" href="assets/logo.svg" type="image/x-icon">
-    </head>
-    <body>
-        <div class="container">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Shortener</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="assets/logo.svg" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <header>
             <h1>Link Shortener</h1>
             <p>Shorten your links, for free!</p>
+        </header>
+        
+        <main>
             <form id="shortenForm">
-                <input type="text" id="longURL" placeholder="Enter your URL">
-                <input type="submit" value="Shorten">
+                <input type="text" id="longURL" placeholder="Enter your URL" required>
+                <button type="submit">Shorten</button>
             </form>
-        </div>
+        </main>
 
         <!-- Custom Popup -->
         <div id="customPopup" class="popup">
             <div class="popup-content">
                 <span class="close-button" onclick="closePopup()">&times;</span>
                 <h2>Shortened Link</h2>
-                <p id="shortenedLink"><a id="shortLink" href="#"
-                        target="_blank">Here's your shortened link</a></p>
-                <button id="copyButton" onclick="copyToClipboard()">Copy to
-                    Clipboard</button>
+                <p id="shortenedLink">
+                    <a id="shortLink" href="#" target="_blank">Here's your shortened link</a>
+                </p>
+                <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
             </div>
         </div>
+
         <!-- Footer -->
         <footer class="footer">
-            <p>With ❤️ by<a href="https://wa.me/+919653484711?text=Hi">Sumit Arora</a>!</p>
+            <p>With ❤️ by <a href="https://wa.me/+919653484711?text=Hi" target="_blank">Sumit Arora</a>!</p>
         </footer>
-        <script src="./script.js"></script>
-    </body>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
