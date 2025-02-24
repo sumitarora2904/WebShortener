@@ -8,7 +8,7 @@
 /* Set body font, background, and layout */
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('https://plus.unsplash.com/premium_photo-1669927131902-a64115445f0f?w=900&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bmlnaHQlMjBjaXR5fGVufDB8fDB8fHww') no-repeat center center fixed;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('/background.jpeg') no-repeat center center fixed;
     background-size: cover;
     color: white;
     display: flex;
