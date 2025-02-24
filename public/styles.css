@@ -25,7 +25,7 @@ body {
     backdrop-filter: blur(10px); /* Blur effect */
     border-radius: 12px;
     padding: 2rem;
-    width: 100%;
+    width: 90%;
     max-width: 500px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     text-align: center;
@@ -91,7 +91,7 @@ button:hover {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 90%;
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     justify-content: center;
