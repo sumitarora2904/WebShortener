@@ -66,7 +66,15 @@ function showPopup(shortenedLink) {
   const shortLinkElement = document.getElementById("shortLink");
   shortLinkElement.textContent = shortenedLink;
   shortLinkElement.href = shortenedLink; // Set the "href" attribute to the shortened link
+  generateQRCode(shortenedLink);
   popup.style.display = "block";
+}
+function generateQRCode(url) {
+  const qrCodeContainer = document.getElementById("qrCodeContainer");
+  const qrCodeImage = document.getElementById("qrCode");
+  const qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
+  qrCodeImage.src = qrCodeURL;
+  qrCodeContainer.style.display = "block"; // Show the QR code container
 }
 function copyToClipboard() {
   const shortLinkElement = document.getElementById("shortLink");
