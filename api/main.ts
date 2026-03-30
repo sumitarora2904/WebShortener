@@ -23,6 +23,11 @@ router.post("/shorten", async (context) => {
 });
 
 router.get("/:urlhash", async (context) => {
+  if (context.params.urlhash === "shorten") {
+    context.response.status = 404;
+    return;
+  }
+
   if (!context.params.urlhash) {
     context.response.status = 400;
     context.response.body = { error: "No URL provided." };
@@ -72,7 +77,5 @@ app.use(async (ctx, next) => {
 
 app.use(router.routes());
 app.use(router.allowedMethods());
-
-app.addEventListener("error", (e) => console.log(e.error));
 
 await app.listen({ port: 8000 });
