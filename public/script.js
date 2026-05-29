@@ -2,16 +2,18 @@ function showToast(msg) {
     const toast = document.getElementById("toast");
     toast.textContent = msg;
     toast.classList.add("show");
-
     setTimeout(() => toast.classList.remove("show"), 2000);
 }
 
 function showPopup(link) {
     const popup = document.getElementById("customPopup");
     const shortLink = document.getElementById("shortLink");
+    const qr = document.getElementById("qrCode");
 
     shortLink.textContent = link;
     shortLink.href = link;
+
+    qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(link)}`;
 
     popup.style.display = "flex";
 }
@@ -26,11 +28,11 @@ document.getElementById("shortenForm").addEventListener("submit", async (e) => {
     const input = document.getElementById("longURL");
     const btn = document.getElementById("submitBtn");
     const spinner = document.getElementById("spinner");
-    const btnText = document.getElementById("btnText");
+    const text = document.getElementById("btnText");
 
-    btn.classList.add("loading");
+    btn.disabled = true;
     spinner.style.display = "inline-block";
-    btnText.textContent = "Shortening...";
+    text.textContent = "Shortening...";
 
     try {
         const res = await fetch("/api/shorten", {
@@ -56,19 +58,12 @@ document.getElementById("shortenForm").addEventListener("submit", async (e) => {
         showToast("Network error");
     }
 
-    btn.classList.remove("loading");
+    btn.disabled = false;
     spinner.style.display = "none";
-    btnText.textContent = "Shorten";
+    text.textContent = "Shorten";
 });
 
 function copyToClipboard() {
     const link = document.getElementById("shortLink").href;
-    const btn = document.getElementById("copyButton");
-
-    navigator.clipboard.writeText(link).then(() => {
-        btn.classList.add("copy-success");
-        showToast("Copied!");
-
-        setTimeout(() => btn.classList.remove("copy-success"), 300);
-    });
+    navigator.clipboard.writeText(link).then(() => showToast("Copied!"));
 }
