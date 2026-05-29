@@ -1,7 +1,3 @@
-/*
-(c) @xditya
-View the license: https://github.com/xditya/WebShortener/blob/master/LICENSE
-*/
 import {
   MongoClient,
   ObjectId,
@@ -9,18 +5,15 @@ import {
 
 import config from "../env.ts";
 
-console.log("Connecting to MongoDB...");
 const client = new MongoClient();
+
 const MONGO_URL = new URL(config.MONGO_URL);
 if (!MONGO_URL.searchParams.has("authMechanism")) {
   MONGO_URL.searchParams.set("authMechanism", "SCRAM-SHA-1");
 }
-try {
-  await client.connect(MONGO_URL.href);
-} catch (err) {
-  console.error("Error connecting to MongoDB", err);
-  throw err;
-}
+
+await client.connect(MONGO_URL.href);
+
 const db = client.database("SelfShortener");
 
 interface UrlSchema {
@@ -31,23 +24,38 @@ interface UrlSchema {
 
 const urls = db.collection<UrlSchema>("URLS");
 
-export function checkIfUrlExists(url: string) {
-  return urls.findOne({ url });
+await urls.createIndexes({
+  indexes: [
+    { name: "hash_idx", key: { hash: 1 }, unique: true },
+    { name: "url_idx", key: { url: 1 }, unique: true },
+  ],
+});
+
+async function checkIfUrlExists(url: string) {
+  return await urls.findOne({ url });
 }
 
-export async function shortenUrl(url: string) {
-  const isUrlExists = await checkIfUrlExists(url);
-  if (isUrlExists) {
-    return isUrlExists.hash;
-  }
-  let hash = Math.random().toString(36).substring(2, 7);
+function generateHash() {
+  return crypto.randomUUID().slice(0, 6);
+}
+
+export async function shortenUrl(url: string): Promise<string> {
+  const existing = await checkIfUrlExists(url);
+
+  if (existing) return existing.hash;
+
+  let hash = generateHash();
+
   while (await urls.findOne({ hash })) {
-    hash = Math.random().toString(36).substring(2, 7);
+    hash = generateHash();
   }
+
   await urls.insertOne({ url, hash });
+
   return hash;
 }
 
 export async function getUrl(hash: string) {
-  return (await urls.findOne({ hash }))?.url;
+  const doc = await urls.findOne({ hash });
+  return doc?.url;
 }
