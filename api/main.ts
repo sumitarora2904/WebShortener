@@ -35,10 +35,33 @@ Deno.serve(async (req) => {
     }
   }
 
-  const path = url.pathname.slice(1);
+  const path = url.pathname;
 
-  if (path && !path.startsWith("api")) {
-    const target = await getUrl(path);
+  if (path === "/" || path === "/index.html") {
+    const file = await Deno.readTextFile("./public/index.html");
+    return new Response(file, {
+      headers: { "content-type": "text/html" },
+    });
+  }
+
+  if (
+    path.endsWith(".js") ||
+    path.endsWith(".css") ||
+    path.endsWith(".png") ||
+    path.endsWith(".jpeg")
+  ) {
+    try {
+      const file = await Deno.readFile(`./public${path}`);
+      return new Response(file);
+    } catch {
+      return new Response("Not Found", { status: 404 });
+    }
+  }
+
+  const hash = path.slice(1);
+
+  if (hash && !hash.startsWith("api")) {
+    const target = await getUrl(hash);
 
     if (target) {
       return Response.redirect(target, 302);
