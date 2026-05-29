@@ -1,50 +1,26 @@
 # WebShortener
+A simple web shortener made with [oak](https://deno.land/x/oak) and [mongo](https://mongodb.com).
 
-A lightweight, fast, and secure URL shortener built with Deno, TypeScript, and MongoDB.
+<a href="https://www.producthunt.com/posts/webshortener?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-webshortener" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=429959&theme=dark" alt="WebShortener - A&#0032;simple&#0032;lightweight&#0032;link&#0032;shortener&#0032;using&#0032;MongoDB&#0046; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
-## Features
-- **Fast Redirection:** Built on Deno's native `Deno.serve` HTTP server for optimal performance.
-- **Persistent Storage:** Utilizes MongoDB for reliable short-to-long URL mappings.
-- **QR Code Integration:** Quickly generate and share QR codes for your shortened links.
-- **Modern UI:** Clean, responsive vanilla HTML/JS/CSS frontend.
+# Live Version
+You can find a live version of this project [here](https://short.xditya.me).
 
-## Prerequisites
-- [Deno](https://deno.land/) (v1.35 or higher recommended)
-- [MongoDB](https://www.mongodb.com/) (Local instance or MongoDB Atlas)
+# API
+The API endpoint is `/shorten`, it takes `url` as a query parameter and returns the shortened URL.
+Example usage can be found [here](./public/script.js).
 
-## Setup and Installation
+# Deploying
+You can easily deploy this project to [deno deploy](https://deno.com/deploy).
+1. Fork the repository (and give it a star too!)
+2. Head on to [deno deploy](https://deno.com/deploy) and login with your GitHub account.
+3. Select "WebShortener" from the list of repositories.
+4. Choose "main" as the branch, and "api/main.ts" as the entrypoint.
+5. Head on to the settings of your app and add your `MONGO_URL`
+6. Vist the deployed app and enjoy!
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/sumitarora2904/webshortener.git
-   cd webshortener
-   ```
+# License
+This project is licensed under the [MIT License](./LICENSE).
 
-2. **Environment Configuration:**
-   Rename the sample environment file and add your MongoDB connection URI:
-   ```bash
-   cp .env.sample .env
-   ```
-   *Edit `.env` and set `MONGO_URL=your_mongodb_connection_string`.*
-
-3. **Run the Server:**
-   Start the application with Deno, granting the necessary permissions:
-   ```bash
-   deno run --allow-net --allow-read --allow-env api/main.ts
-   ```
-
-4. **Access the Application:**
-   Open your web browser and navigate to `http://localhost:8000`.
-
-## Architecture Overview
-- `/api/main.ts`: The main entry point and HTTP routing utilizing native Deno APIs.
-- `/api/database.ts`: Handles the MongoDB connection pool and database operations.
-- `/public/`: Contains static assets served to the client (`index.html`, `styles.css`, `script.js`).
-
-## Credits & Acknowledgments
-This repository is a modified version of the original WebShortener project. All credit and immense appreciation go to the original author for the foundational code, concept, and design.
-
-*Current modifications and maintenance by [sumitarora2904](https://github.com/sumitarora2904/webshortener).*
-
-## License
-This project is licensed under the terms specified in the `LICENSE` file.
+# Credits
+Made with ❤️ by [Aditya](https://xditya.me).
