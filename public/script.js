@@ -33,7 +33,7 @@ document
       return;
     }
     // Get the shortened link
-    const res = await fetch("/shorten", {
+    const res = await fetch("/api/shorten", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
