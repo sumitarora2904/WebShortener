@@ -64,9 +64,9 @@ button {
     background: #1e90ff;
     color: white;
     cursor: pointer;
-    display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 .spinner {
