@@ -4,9 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Link Shortener</title>
-
     <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="https://svg.io/images/examples/flat_skull-face.svg" />
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 
@@ -20,48 +18,38 @@
             <p>Shorten your links for free</p>
         </header>
 
-        <main>
-            <form id="shortenForm">
-                <input type="url" id="longURL" placeholder="Enter your URL" required />
-                <button type="submit" id="submitBtn">
-                    <span id="btnText">Shorten</span>
-                    <span id="spinner" class="spinner"></span>
-                </button>
-            </form>
-        </main>
+        <form id="shortenForm">
+            <input type="url" id="longURL" placeholder="Enter URL" required />
+            <button type="submit" id="submitBtn">
+                <span id="btnText">Shorten</span>
+                <span id="spinner" class="spinner"></span>
+            </button>
+        </form>
     </div>
 
     <div id="customPopup" class="popup">
         <div class="popup-content">
             <span class="close-button" onclick="closePopup()">&times;</span>
-
             <h2>Shortened Link</h2>
-
-            <a id="shortLink" href="#" target="_blank" rel="noopener noreferrer"></a>
-
-            <div id="qrCodeContainer" style="display:none;">
+            <a id="shortLink" href="#" target="_blank"></a>
+            <div id="qrCodeContainer">
                 <img id="qrCode" />
             </div>
-
-            <button id="copyButton" onclick="copyToClipboard()">Copy</button>
+            <button onclick="copyToClipboard()">Copy</button>
         </div>
     </div>
 
     <div id="toast" class="toast"></div>
-
-    <footer>
-        <p>Made with ❤️</p>
-    </footer>
 
     <script src="script.js"></script>
 
     <script>
         particlesJS("particles-js", {
             particles: {
-                number: { value: 80 },
+                number: { value: 70 },
                 color: { value: "#ffffff" },
                 size: { value: 3 },
-                move: { enable: true, speed: 4 }
+                move: { speed: 3 }
             }
         });
     </script>
