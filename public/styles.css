@@ -33,6 +33,7 @@ body {
 
 header img {
     height: 80px;
+    filter: invert(1);
 }
 
 h1 {
