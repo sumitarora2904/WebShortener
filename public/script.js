@@ -1,91 +1,74 @@
-/*
-(c) @xditya
-View the license: https://github.com/xditya/WebShortener/blob/master/LICENSE
-*/
+function showToast(msg) {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.add("show");
 
-const isValidUrl = (urlString) => {
-  const urlPattern = new RegExp(
-    "^(https?:\\/\\/)" + // validate protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
-  ); // validate fragment locator
-  return !!urlPattern.test(urlString);
-};
+    setTimeout(() => toast.classList.remove("show"), 2000);
+}
 
-document
-  .getElementById("shortenForm")
-  .addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prevent form submission
+function showPopup(link) {
+    const popup = document.getElementById("customPopup");
+    const shortLink = document.getElementById("shortLink");
 
-    const longURL = document.getElementById("longURL").value;
+    shortLink.textContent = link;
+    shortLink.href = link;
 
-    // Check if the input is empty
-    if (longURL.trim() === "") {
-      alert("Please enter a URL");
-      return;
-    }
-    if (!isValidUrl(longURL)) {
-      alert("Please enter a valid URL");
-      return;
-    }
-    // Get the shortened link
-    const res = await fetch("/api/shorten", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url: longURL }),
-    });
-    const data = await res.json();
-    if (data.error) {
-      alert(data.error);
-      return;
-    }
-    if (data.hash) {
-      shortenedLink = data.hash;
-    }
-
-    // Show the custom popup with the shortened link
-    showPopup(window.location.href + shortenedLink);
-
-    // Clear the input box after showing the popup
-    document.getElementById("longURL").value = "";
-  });
+    popup.style.display = "flex";
+}
 
 function closePopup() {
-  const popup = document.getElementById("customPopup");
-  popup.style.display = "none";
+    document.getElementById("customPopup").style.display = "none";
 }
 
-function showPopup(shortenedLink) {
-  const popup = document.getElementById("customPopup");
-  const shortLinkElement = document.getElementById("shortLink");
-  shortLinkElement.textContent = shortenedLink;
-  shortLinkElement.href = shortenedLink; // Set the "href" attribute to the shortened link
-  generateQRCode(shortenedLink);
-  popup.style.display = "block";
-}
-function generateQRCode(url) {
-  const qrCodeContainer = document.getElementById("qrCodeContainer");
-  const qrCodeImage = document.getElementById("qrCode");
-  const qrCodeURL = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(url)}`;
-  qrCodeImage.src = qrCodeURL;
-  qrCodeContainer.style.display = "block"; // Show the QR code container
-}
+document.getElementById("shortenForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const input = document.getElementById("longURL");
+    const btn = document.getElementById("submitBtn");
+    const spinner = document.getElementById("spinner");
+    const btnText = document.getElementById("btnText");
+
+    btn.classList.add("loading");
+    spinner.style.display = "inline-block";
+    btnText.textContent = "Shortening...";
+
+    try {
+        const res = await fetch("/api/shorten", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: input.value })
+        });
+
+        const data = await res.json();
+
+        if (!data.hash) {
+            showToast(data.error || "Error");
+            return;
+        }
+
+        const link = `${window.location.origin}/${data.hash}`;
+
+        showPopup(link);
+        showToast("Link created!");
+        input.value = "";
+
+    } catch {
+        showToast("Network error");
+    }
+
+    btn.classList.remove("loading");
+    spinner.style.display = "none";
+    btnText.textContent = "Shorten";
+});
+
 function copyToClipboard() {
-  const shortLinkElement = document.getElementById("shortLink");
-  const shortenedLink = shortLinkElement.href;
+    const link = document.getElementById("shortLink").href;
+    const btn = document.getElementById("copyButton");
 
-  navigator.clipboard
-    .writeText(shortenedLink)
-    .then(function () {
-      alert("Copied: " + shortenedLink);
-    })
-    .catch(function (err) {
-      console.error("Failed to copy: ", err);
+    navigator.clipboard.writeText(link).then(() => {
+        btn.classList.add("copy-success");
+        showToast("Copied!");
+
+        setTimeout(() => btn.classList.remove("copy-success"), 300);
     });
 }
